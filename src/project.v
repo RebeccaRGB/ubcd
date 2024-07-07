@@ -52,6 +52,14 @@ module tt_um_rebeccargb_universal_decoder (
     .LT(uio_in[3]), .BI(uio_in[4]), .AL(uio_in[5])
   );
 
+  assign uio_oe[7:2] = 0;
+  assign uio_oe[1] = uio_in[7];
+  assign uio_oe[0] = uio_in[7];
+
+  assign uio_out[7:2] = 0;
+  assign uio_out[1] = uio_in[7] ? (uio_in[6] ? k_v : c_y2) : 0;
+  assign uio_out[0] = uio_in[7] ? (uio_in[6] ? k_h : c_y1) : 0;
+
   assign uo_out[0] = uio_in[7] ? (uio_in[6] ? k_a   : c_u1) : (uio_in[6] ? a_a   : b_a  );
   assign uo_out[1] = uio_in[7] ? (uio_in[6] ? k_b   : c_u2) : (uio_in[6] ? a_b   : b_b  );
   assign uo_out[2] = uio_in[7] ? (uio_in[6] ? k_c   : c_v1) : (uio_in[6] ? a_c   : b_c  );
@@ -60,14 +68,6 @@ module tt_um_rebeccargb_universal_decoder (
   assign uo_out[5] = uio_in[7] ? (uio_in[6] ? k_f   : c_w2) : (uio_in[6] ? a_f   : b_f  );
   assign uo_out[6] = uio_in[7] ? (uio_in[6] ? k_g   : c_x1) : (uio_in[6] ? a_g   : b_g  );
   assign uo_out[7] = uio_in[7] ? (uio_in[6] ? k_rbo : c_x2) : (uio_in[6] ? a_ltr : b_rbo);
-
-  assign uio_out[0] = uio_in[7] ? (uio_in[6] ? k_h : c_y1) : 0;
-  assign uio_out[1] = uio_in[7] ? (uio_in[6] ? k_v : c_y2) : 0;
-  assign uio_out[2:7] = 0;
-
-  assign uio_oe[0] = uio_in[7];
-  assign uio_oe[1] = uio_in[7];
-  assign uio_oe[2:7] = 0;
 
   // List all unused inputs to prevent warnings
   wire _unused = &{ena, clk, rst_n, 1'b0};
