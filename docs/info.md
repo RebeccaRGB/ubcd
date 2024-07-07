@@ -1,15 +1,17 @@
-<!---
-
-This file is used to generate your project datasheet. Please fill in the information below and delete any unused
-sections.
-
-You can also include images in this folder and reference them in the markdown. Each image must be less than
-512 kb in size, and the combined size of all images must be less than 1 MB.
--->
-
 ## How it works
 
-Explain how your project works
+This project is composed of four modules:
+
+* A BCD to seven segment decoder with a wide variety of options
+  for customizing the appearance of digits
+
+* An ASCII to seven segment decoder with two different “fonts”
+
+* A dual BCD to [Cistercian numeral](https://en.wikipedia.org/wiki/Cistercian_numerals)
+  decoder
+
+* A BCV (binary-coded *vigesimal*) to [Kaktovik numeral](https://en.wikipedia.org/wiki/Kaktovik_numerals)
+  decoder
 
 ## How to test
 
@@ -17,4 +19,16 @@ Explain how to use your project
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+For the BCD and ASCII modes, a standard seven-segment display is used.
+
+For the Cistercian mode, a segmented display like the one below is used.
+There are design files for such a display in this directory:
+https://github.com/RebeccaRGB/buck/tree/main/cistercian-display
+
+![](cistercian-display.svg)
+
+For the Kaktovik mode, a segmented display like the one below is used.
+There are design files for such a display in this directory:
+https://github.com/RebeccaRGB/buck/tree/main/kaktovik-display
+
+![](kaktovik-display.svg)
