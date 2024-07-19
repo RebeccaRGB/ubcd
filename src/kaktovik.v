@@ -25,7 +25,7 @@ module kaktovik_decoder (
 	assign Qg = (((data[6] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
 	assign Qh = (((data[7] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
 
-	always @(value) begin
+	always @(value or RBI) begin
 		case (value)
 			0: data = (RBI ? 8'b00000100 : 8'b00000000);
 			1: data = 8'b00000001;

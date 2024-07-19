@@ -27,7 +27,7 @@ module ascii_decoder (
 	assign Qf = (data[5] & ABI) ^ ~AL;
 	assign Qg = (data[6] & ABI) ^ ~AL;
 
-	always @(value) begin
+	always @(value or FS or LC or X6 or X7 or X9) begin
 		case (value)
 			7'h21: data = 7'h0A;
 			7'h22: data = 7'h22;
