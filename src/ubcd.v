@@ -30,95 +30,71 @@ module universal_bcd_decoder (
 	assign Qg = ((data[6] | ~LT) & BI) ^ ~AL;
 
 	always @(version or value or RBI or X6 or X7 or X9) begin
-		if (value < 10) begin
-			case (value)
-				0: data = (RBI ? 7'h3F : 7'h00);
-				1: data = 7'h06;
-				2: data = 7'h5B;
-				3: data = 7'h4F;
-				4: data = 7'h66;
-				5: data = 7'h6D;
-				6: data = (X6 ? 7'h7D : 7'h7C);
-				7: data = (X7 ? 7'h27 : 7'h07);
-				8: data = 7'h7F;
-				9: data = (X9 ? 7'h6F : 7'h67);
-			endcase
-		end else begin
-			case (version)
-				// RCA / blanking version
-				0: data = 7'h00;
-
-				// TI version
-				1: case (value)
-					10: data = 7'h58;
-					11: data = 7'h4C;
-					12: data = 7'h62;
-					13: data = 7'h69;
-					14: data = 7'h78;
-					15: data = 7'h00;
-				endcase
-
-				// NatSemi version
-				2: case (value)
-					10: data = 7'h5C;
-					11: data = 7'h63;
-					12: data = 7'h01;
-					13: data = 7'h40;
-					14: data = 7'h08;
-					15: data = 7'h00;
-				endcase
-
-				// Toshiba version
-				3: case (value)
-					10: data = 7'h3F;
-					11: data = 7'h06;
-					12: data = 7'h5B;
-					13: data = 7'h4F;
-					14: data = 7'h66;
-					15: data = 7'h6D;
-				endcase
-
-				// lines version
-				4: case (value)
-					10: data = 7'h08;
-					11: data = 7'h48;
-					12: data = 7'h49;
-					13: data = 7'h41;
-					14: data = 7'h01;
-					15: data = 7'h00;
-				endcase
-
-				// Electronika version
-				5: case (value)
-					10: data = 7'h40;
-					11: data = 7'h38;
-					12: data = 7'h39;
-					13: data = 7'h31;
-					14: data = 7'h79;
-					15: data = 7'h00;
-				endcase
-
-				// Code B version
-				6: case (value)
-					10: data = 7'h40;
-					11: data = 7'h79;
-					12: data = 7'h76;
-					13: data = 7'h38;
-					14: data = 7'h73;
-					15: data = 7'h00;
-				endcase
-
-				// hexadecimal version
-				7: case (value)
-					10: data = 7'h77;
-					11: data = 7'h7C;
-					12: data = 7'h39;
-					13: data = 7'h5E;
-					14: data = 7'h79;
-					15: data = 7'h71;
-				endcase
-			endcase
-		end
+		casez ({version, value})
+			// decimal digits
+			7'b???0000: data = (RBI ? 7'h3F : 7'h00);
+			7'b???0001: data = 7'h06;
+			7'b???0010: data = 7'h5B;
+			7'b???0011: data = 7'h4F;
+			7'b???0100: data = 7'h66;
+			7'b???0101: data = 7'h6D;
+			7'b???0110: data = (X6 ? 7'h7D : 7'h7C);
+			7'b???0111: data = (X7 ? 7'h27 : 7'h07);
+			7'b???1000: data = 7'h7F;
+			7'b???1001: data = (X9 ? 7'h6F : 7'h67);
+			// RCA / blanking version
+			7'b000101?: data = 7'h00;
+			7'b00011??: data = 7'h00;
+			// TI version
+			7'b0011010: data = 7'h58;
+			7'b0011011: data = 7'h4C;
+			7'b0011100: data = 7'h62;
+			7'b0011101: data = 7'h69;
+			7'b0011110: data = 7'h78;
+			7'b0011111: data = 7'h00;
+			// NatSemi version
+			7'b0101010: data = 7'h5C;
+			7'b0101011: data = 7'h63;
+			7'b0101100: data = 7'h01;
+			7'b0101101: data = 7'h40;
+			7'b0101110: data = 7'h08;
+			7'b0101111: data = 7'h00;
+			// Toshiba version
+			7'b0111010: data = 7'h3F;
+			7'b0111011: data = 7'h06;
+			7'b0111100: data = 7'h5B;
+			7'b0111101: data = 7'h4F;
+			7'b0111110: data = 7'h66;
+			7'b0111111: data = 7'h6D;
+			// lines version
+			7'b1001010: data = 7'h08;
+			7'b1001011: data = 7'h48;
+			7'b1001100: data = 7'h49;
+			7'b1001101: data = 7'h41;
+			7'b1001110: data = 7'h01;
+			7'b1001111: data = 7'h00;
+			// Electronika version
+			7'b1011010: data = 7'h40;
+			7'b1011011: data = 7'h38;
+			7'b1011100: data = 7'h39;
+			7'b1011101: data = 7'h31;
+			7'b1011110: data = 7'h79;
+			7'b1011111: data = 7'h00;
+			// Code B version
+			7'b1101010: data = 7'h40;
+			7'b1101011: data = 7'h79;
+			7'b1101100: data = 7'h76;
+			7'b1101101: data = 7'h38;
+			7'b1101110: data = 7'h73;
+			7'b1101111: data = 7'h00;
+			// hexadecimal version
+			7'b1111010: data = 7'h77;
+			7'b1111011: data = 7'h7C;
+			7'b1111100: data = 7'h39;
+			7'b1111101: data = 7'h5E;
+			7'b1111110: data = 7'h79;
+			7'b1111111: data = 7'h71;
+		endcase
 	end
 
 endmodule
