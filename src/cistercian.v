@@ -1,21 +1,10 @@
 module dual_cistercian_decoder (
-	BI, AL,
-	LT1, A1, B1, C1, D1,
-	LT2, A2, B2, C2, D2,
-	U1, V1, W1, X1, Y1,
-	U2, V2, W2, X2, Y2
+	input wire A1, B1, C1, D1, A2, B2, C2, D2, LT1, LT2, BI, AL,
+	output wire U1, V1, W1, X1, Y1, U2, V2, W2, X2, Y2
 );
 
-	input BI, AL;
-	input LT1, A1, B1, C1, D1;
-	input LT2, A2, B2, C2, D2;
-	output U1, V1, W1, X1, Y1;
-	output U2, V2, W2, X2, Y2;
-
-	wire [3:0] value1;
-	wire [3:0] value2;
-	assign value1 = {D1, C1, B1, A1};
-	assign value2 = {D2, C2, B2, A2};
+	wire [3:0] value1 = {D1, C1, B1, A1};
+	wire [3:0] value2 = {D2, C2, B2, A2};
 
 	reg [4:0] data1;
 	reg [4:0] data2;

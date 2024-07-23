@@ -1,21 +1,11 @@
 module kaktovik_decoder (
-	RBI, BI, LT, AL, VBI,
-	A, B, C, D, E,
-	RBO, V,
-	Qa, Qb, Qc, Qd, Qe, Qf, Qg, Qh
+	input wire A, B, C, D, E, RBI, VBI, LT, BI, AL,
+	output wire Qa, Qb, Qc, Qd, Qe, Qf, Qg, Qh, RBO, V
 );
 
-	input RBI, BI, LT, AL, VBI;
-	input A, B, C, D, E;
-	output RBO, V;
-	output Qa, Qb, Qc, Qd, Qe, Qf, Qg, Qh;
-
-	wire [4:0] value;
-	assign value = {E, D, C, B, A};
+	wire [4:0] value = {E, D, C, B, A};
 
 	reg [7:0] data;
-	assign V = (value >= 20);
-	assign RBO = ((value != 0) | RBI | ~LT) & BI;
 	assign Qa = (((data[0] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
 	assign Qb = (((data[1] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
 	assign Qc = (((data[2] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
@@ -24,6 +14,8 @@ module kaktovik_decoder (
 	assign Qf = (((data[5] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
 	assign Qg = (((data[6] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
 	assign Qh = (((data[7] & (VBI | ~V)) | ~LT) & BI) ^ ~AL;
+	assign RBO = ((value != 0) | RBI | ~LT) & BI;
+	assign V = (value >= 20);
 
 	always @(value or RBI) begin
 		case (value)

@@ -1,24 +1,12 @@
 module ascii_decoder (
-	ABI, AL,
-	LC, FS,
-	X6, X7, X9,
-	D0, D1, D2, D3, D4, D5, D6,
-	LTR,
-	Qa, Qb, Qc, Qd, Qe, Qf, Qg
+	input wire D0, D1, D2, D3, D4, D5, D6,
+	input wire X6, X7, X9, LC, FS, ABI, AL,
+	output wire Qa, Qb, Qc, Qd, Qe, Qf, Qg, LTR
 );
 
-	input ABI, AL;
-	input LC, FS;
-	input X6, X7, X9;
-	input D0, D1, D2, D3, D4, D5, D6;
-	output LTR;
-	output Qa, Qb, Qc, Qd, Qe, Qf, Qg;
-
-	wire [6:0] value;
-	assign value = {D6, D5, D4, D3, D2, D1, D0};
+	wire [6:0] value = {D6, D5, D4, D3, D2, D1, D0};
 
 	reg [6:0] data;
-	assign LTR = ~(value[6] & ((value[4:0] >= 5'h01) && (value[4:0] <= 5'h1A)));
 	assign Qa = (data[0] & ABI) ^ ~AL;
 	assign Qb = (data[1] & ABI) ^ ~AL;
 	assign Qc = (data[2] & ABI) ^ ~AL;
@@ -26,6 +14,7 @@ module ascii_decoder (
 	assign Qe = (data[4] & ABI) ^ ~AL;
 	assign Qf = (data[5] & ABI) ^ ~AL;
 	assign Qg = (data[6] & ABI) ^ ~AL;
+	assign LTR = ~(value[6] & ((value[4:0] >= 5'h01) && (value[4:0] <= 5'h1A)));
 
 	always @(value or FS or LC or X6 or X7 or X9) begin
 		case (value)

@@ -1,26 +1,13 @@
 module universal_bcd_decoder (
-	RBI, BI, LT, AL,
-	V0, V1, V2,
-	X6, X7, X9,
-	A, B, C, D,
-	RBO,
-	Qa, Qb, Qc, Qd, Qe, Qf, Qg
+	input wire A, B, C, D, V0, V1, V2,
+	input wire X6, X7, X9, RBI, LT, BI, AL,
+	output wire Qa, Qb, Qc, Qd, Qe, Qf, Qg, RBO
 );
 
-	input RBI, BI, LT, AL;
-	input V0, V1, V2;
-	input X6, X7, X9;
-	input A, B, C, D;
-	output RBO;
-	output Qa, Qb, Qc, Qd, Qe, Qf, Qg;
-
-	wire [2:0] version;
-	wire [3:0] value;
-	assign version = {V2, V1, V0};
-	assign value = {D, C, B, A};
+	wire [2:0] version = {V2, V1, V0};
+	wire [3:0] value = {D, C, B, A};
 
 	reg [6:0] data;
-	assign RBO = ((value != 0) | RBI | ~LT) & BI;
 	assign Qa = ((data[0] | ~LT) & BI) ^ ~AL;
 	assign Qb = ((data[1] | ~LT) & BI) ^ ~AL;
 	assign Qc = ((data[2] | ~LT) & BI) ^ ~AL;
@@ -28,6 +15,7 @@ module universal_bcd_decoder (
 	assign Qe = ((data[4] | ~LT) & BI) ^ ~AL;
 	assign Qf = ((data[5] | ~LT) & BI) ^ ~AL;
 	assign Qg = ((data[6] | ~LT) & BI) ^ ~AL;
+	assign RBO = ((value != 0) | RBI | ~LT) & BI;
 
 	always @(version or value or RBI or X6 or X7 or X9) begin
 		casez ({version, value})
