@@ -70,6 +70,6 @@ module tt_um_rebeccargb_universal_decoder (
   assign uo_out[7] = uio_in[7] ? (uio_in[6] ? k_rbo : c_x2) : (uio_in[6] ? a_ltr : b_rbo);
 
   // List all unused inputs to prevent warnings
-  wire _unused = &{ena, clk, rst_n, 1'b0};
+  wire _unused_ok = &{ena, clk, rst_n};
 
 endmodule

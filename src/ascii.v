@@ -16,7 +16,7 @@ module ascii_decoder (
 	assign Qg = (data[6] & ABI) ^ ~AL;
 	assign LTR = ~(value[6] & ((value[4:0] >= 5'h01) && (value[4:0] <= 5'h1A)));
 
-	always @(value or FS or LC or X6 or X7 or X9) begin
+	always_comb begin
 		case (value)
 			7'h21: data = 7'h0A;
 			7'h22: data = 7'h22;

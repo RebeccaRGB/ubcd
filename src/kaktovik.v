@@ -17,7 +17,7 @@ module kaktovik_decoder (
 	assign RBO = ((value != 0) | RBI | ~LT) & BI;
 	assign V = (value >= 20);
 
-	always @(value or RBI) begin
+	always_comb begin
 		case (value)
 			0: data = (RBI ? 8'b00000100 : 8'b00000000);
 			1: data = 8'b00000001;

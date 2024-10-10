@@ -17,7 +17,7 @@ module universal_bcd_decoder (
 	assign Qg = ((data[6] | ~LT) & BI) ^ ~AL;
 	assign RBO = ((value != 0) | RBI | ~LT) & BI;
 
-	always @(version or value or RBI or X6 or X7 or X9) begin
+	always_comb begin
 		casez ({version, value})
 			// decimal digits
 			7'b???0000: data = (RBI ? 7'h3F : 7'h00);

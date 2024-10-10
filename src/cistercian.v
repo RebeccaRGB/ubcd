@@ -19,7 +19,7 @@ module dual_cistercian_decoder (
 	assign X2 = ((data2[1] | ~LT2) & BI) ^ ~AL;
 	assign Y2 = ((data2[0] | ~LT2) & BI) ^ ~AL;
 
-	always @(value1) begin
+	always_comb begin
 		case (value1)
 			0: data1 = 5'b00000;
 			1: data1 = 5'b10000;
@@ -40,7 +40,7 @@ module dual_cistercian_decoder (
 		endcase
 	end
 
-	always @(value2) begin
+	always_comb begin
 		case (value2)
 			0: data2 = 5'b00000;
 			1: data2 = 5'b10000;
